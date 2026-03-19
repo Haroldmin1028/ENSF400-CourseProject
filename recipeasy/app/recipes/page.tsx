@@ -8,12 +8,14 @@ async function RecipesData() {
   return <pre>{JSON.stringify(recipes, null, 2)}</pre>;
 }
 
-function MealDBRecipesData() {
-  var recipes = getRecipesByString("ice")
-  return <pre>{JSON.stringify(recipes, null, 2)}</pre>;
+async function MealDBRecipesData() {
+  const recipes = await getRecipesByString("ice");
+  const recipe_string = JSON.stringify(recipes, null, 2);
+  //console.log(recipe_string);
+  return <pre>{recipe_string}</pre>;
 }
 
-export default function Recipes() {
+export default async function Recipes() {
   return (
     <Suspense fallback={<div>Loading Recipes...</div>}>
       <MealDBRecipesData />

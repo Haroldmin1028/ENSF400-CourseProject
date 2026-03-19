@@ -1,71 +1,81 @@
 
-const api_url = "themealdb.com/api/json/v1/1/";
-function recipe_fetch(query: string) {
-    fetch(api_url + query, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'json',
-        },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-        //console.log(data);
-        return data;
-    });
+const api_url = "https://www.themealdb.com/api/json/v1/1/";
+async function recipe_fetch(query: string) {
+  const response = await fetch(api_url + query, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'json',
+    },
+  });
+  const data = await response.json();
+  return data;
 }
 
 
 const api_strings: string[] = [
-    "search.php?s=", //substring
-    "search.php?f=", //first letter
-    "lookup.php?i=", //id
-    "filter.php?i=", //main ingredient
-    "filter.php?c=", //category
-    "filter.php?a=", //area
+  "lookup.php?i=", //id
+  "search.php?s=", //substring
+  "search.php?f=", //first letter
+  "filter.php?i=", //main ingredient
+  "filter.php?c=", //category
+  "filter.php?a=", //area
 ];
-function getRecipeByID(id: number) {
-    return recipe_fetch(api_strings[0]+id.toString());
+async function getRecipeByID(id: number) {
+  var result = await recipe_fetch(api_strings[0]+id.toString());
+  return result;
 }
-function getRecipesByString(str: string) {
-    return recipe_fetch(api_strings[1]+str);
+async function getRecipesByString(str: string) {
+  var result = await recipe_fetch(api_strings[1]+str);
+  return result;
 }
-function getRecipesByLetter(initial: string) {
-    return recipe_fetch(api_strings[2]+initial);
+async function getRecipesByLetter(initial: string) {
+  var result = await recipe_fetch(api_strings[2]+initial);
+  return result;
 }
-function getRecipesByIngredient(name: string) {
-    return recipe_fetch(api_strings[3]+name);
+async function getRecipesByIngredient(name: string) {
+  var result = await recipe_fetch(api_strings[3]+name);
+  return result;
 }
-function getRecipesByCategory(name: string) {
-    return recipe_fetch(api_strings[4]+name);
+async function getRecipesByCategory(name: string) {
+  var result = await recipe_fetch(api_strings[4]+name);
+  return result;
 }
-function getRecipesByArea(name: string) {
-    return recipe_fetch(api_strings[5]+name);
+async function getRecipesByArea(name: string) {
+  var result = await recipe_fetch(api_strings[5]+name);
+  return result;
 }
 
 
 const list_string = "list.php?%=list"
-function getCategoryList() {
-    return recipe_fetch(list_string.replace("%","c"));
+async function getCategoryList() {
+  var result = await recipe_fetch(list_string.replace("%","c"));
+  return result;
 }
-function getIngredientList() {
-    return recipe_fetch(list_string.replace("%","i"));
+async function getIngredientList() {
+  var result = await recipe_fetch(list_string.replace("%","i"));
+  return result;
 }
-function getAreaList() {
-    return recipe_fetch(list_string.replace("%","a"));
+async function getAreaList() {
+  var result = await recipe_fetch(list_string.replace("%","a"));
+  return result;
 }
 
 
 //meals have an attribute called strMealThumb that is a URL that can have /small, /medium, or /large appended
 
 //ingredient links can have -small, -medium, and -large appended
-const ingredient_url = "themealdb.com/images/ingredients/";
+const ingredient_url = "https://www.themealdb.com/images/ingredients/";
 //ingredient images are snake_case pngs
 let getIngredientImg = (name: string): string => ingredient_url+name.replace(/ /g, "_");
 
 
 export {
-    getRecipeByID,
-    getRecipesByString, getRecipesByLetter, getRecipesByIngredient, getRecipesByCategory, getRecipesByArea,
-    getCategoryList, getIngredientList, getAreaList,
-    getIngredientImg
+  //get a specific recipe
+  getRecipeByID,
+  //get a list of recipes
+  getRecipesByString, getRecipesByLetter, getRecipesByIngredient, getRecipesByCategory, getRecipesByArea,
+  //get other lists
+  getCategoryList, getIngredientList, getAreaList,
+  //get image URLs
+  getIngredientImg
 };
