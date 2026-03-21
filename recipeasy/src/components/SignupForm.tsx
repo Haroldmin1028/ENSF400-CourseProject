@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -30,79 +33,135 @@ export default function SignupForm() {
 
   return (
     <div className="min-h-screen bg-[#9CAF88] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Decorative Corner Borders */}
+      <div className="absolute top-0 left-0 w-48 h-48 pointer-events-none">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <path
+            d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
+            stroke="white"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+          />
+          <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
+          <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
+          <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
+        </svg>
+      </div>
 
-        {/* Main Card */}
-        <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 relative z-10">
-            {/* Logo/Brand Section */}
-            <div className="text-center mb-8">
-                <Image
-                  src="/recipeasylogo.png"
-                  alt="RecipEasy Logo"
-                  width={200}
-                  height={200}
-                  className="mx-auto"
-                  priority
-                />
-            </div>
+      <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none rotate-90">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <path
+            d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
+            stroke="white"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+          />
+          <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
+          <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
+          <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
+        </svg>
+      </div>
 
-            {/* Decorative Divider */}
-            <div className="flex items-center justify-center mb-6">
-            <div className="h-px bg-[#9CAF88] flex-1"></div>
-            {/* <Star className="w-3 h-3 fill-[#F4D03F] text-[#F4D03F] mx-3" /> */}
-            <div className="h-px bg-[#9CAF88] flex-1"></div>
-            </div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 pointer-events-none -rotate-90">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <path
+            d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
+            stroke="white"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+          />
+          <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
+          <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
+          <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
+        </svg>
+      </div>
 
-            <h2 className="text-center text-[#4a5240] mb-6">Create Your Account</h2>
+      <div className="absolute bottom-0 right-0 w-48 h-48 pointer-events-none rotate-180">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <path
+            d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
+            stroke="white"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+          />
+          <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
+          <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
+          <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
+        </svg>
+      </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2">
-                <label htmlFor="name" className="text-[#4a5240]">Full Name</label>
-                <input
-                    id="name"
-                    type="text"
-                    placeholder="John Doe"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
-                />
-            </div>
+      {/* Logo/Brand Section */}
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
+        <Image
+            src="/recipeasylogo.png"
+            alt="RecipEasy Logo"
+            width={200}
+            height={200}
+            className="w-full h-auto mx-auto"
+            priority
+        />
+      </div>
 
-            <div className="space-y-2">
-                <label htmlFor="email" className="text-[#4a5240]">
-                    Email
-                </label>
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="your.email@example.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
-                />
-            </div>
+      {/* Main Card */}
+      <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 relative z-10">
 
-            <div className="space-y-2">
-                <label htmlFor="password" className="text-[#4a5240]">
-                Password
-                </label>
-                <input
-                id="password"
-                type="password"
-                placeholder="Create a password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
-                />
-            </div>
+          <h2 className="text-center text-[#4a5240] mb-6 font-bold">Create Your Account</h2>
 
-            <div className="space-y-2">
-                <label htmlFor="confirmPassword" className="text-[#4a5240]">
-                Confirm Password
-                </label>
-                <input
+          <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-2">
+              <Label htmlFor="name" className="text-[#4a5240]">
+                Full Name
+              </Label>
+              <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
+              />
+          </div>
+
+          <div className="space-y-2">
+              <Label htmlFor="email" className="text-[#4a5240]">
+                  Email
+              </Label>
+              <Input
+                  id="email"
+                  type="email"
+                  placeholder="your.email@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
+              />
+          </div>
+
+          <div className="space-y-2">
+              <Label htmlFor="password" className="text-[#4a5240]">
+              Password
+              </Label>
+              <Input
+              id="password"
+              type="password"
+              placeholder="Create a password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
+              />
+          </div>
+
+          <div className="space-y-2">
+              <Label htmlFor="confirmPassword" className="text-[#4a5240]">
+              Confirm Password
+              </Label>
+              <Input
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your password"
@@ -110,22 +169,22 @@ export default function SignupForm() {
                 onChange={handleChange}
                 required
                 className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
-                />
-            </div>
+              />
+          </div>
 
-            <button type="submit">
-                Sign Up
-            </button>
-            </form>
+          <Button type="submit" className="w-full bg-[#6B4423] hover:bg-[#8B5A2B] text-white transition-colors">
+              Sign Up
+          </Button>
+          </form>
 
-            {/* Decorative Divider */}
-            <div className="flex items-center justify-center my-6">
+          {/* Decorative Divider */}
+          <div className="flex items-center justify-center my-6">
             <div className="h-px bg-[#9CAF88] flex-1"></div>
             <span className="px-3 text-sm text-[#4a5240]/70">or</span>
             <div className="h-px bg-[#9CAF88] flex-1"></div>
-            </div>
+          </div>
 
-            <div className="text-center">
+          <div className="text-center">
             <p className="text-[#4a5240]/70">
                 Already have an account?{" "}
                 <Link
@@ -135,8 +194,8 @@ export default function SignupForm() {
                 Log In
                 </Link>
             </p>
-            </div>
-        </div>
+          </div>
+      </div>
     </div>
   );
 }

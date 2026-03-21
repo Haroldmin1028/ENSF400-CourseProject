@@ -19,26 +19,82 @@ export default function LoginForm() {
 
   return (
     <div className="min-h-screen bg-[#9CAF88] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Decorative Corner Borders */}
+      <div className="absolute top-0 left-0 w-48 h-48 pointer-events-none">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <path
+            d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
+            stroke="white"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+          />
+          <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
+          <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
+          <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
+        </svg>
+      </div>
+
+      <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none rotate-90">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <path
+            d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
+            stroke="white"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+          />
+          <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
+          <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
+          <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-0 left-0 w-48 h-48 pointer-events-none -rotate-90">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <path
+            d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
+            stroke="white"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+          />
+          <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
+          <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
+          <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-0 right-0 w-48 h-48 pointer-events-none rotate-180">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <path
+            d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
+            stroke="white"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+          />
+          <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
+          <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
+          <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
+        </svg>
+      </div>
+
+      {/* Logo/Brand Section */}
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
+        <Image
+            src="/recipeasylogo.png"
+            alt="RecipEasy Logo"
+            width={200}
+            height={200}
+            className="w-full h-auto mx-auto"
+            priority
+        />
+      </div>
 
       {/* Main Card */}
       <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 relative z-10">
-        {/* Logo/Brand Section */}
-        <div className="flex items-center justify-center text-center mb-8">
-            <Image
-                src="/recipeasylogo.png"
-                alt="RecipEasy Logo"
-                width={200}
-                height={200}
-                className="mx-auto"
-                priority
-            />
-        </div>
-
-        {/* Decorative Divider */}
-        <div className="flex items-center justify-center mb-6">
-          <div className="h-px bg-[#9CAF88] flex-1"></div>
-          <div className="h-px bg-[#9CAF88] flex-1"></div>
-        </div>
+        
 
         <h2 className="text-center text-[#4a5240] mb-6">Log In</h2>
 
