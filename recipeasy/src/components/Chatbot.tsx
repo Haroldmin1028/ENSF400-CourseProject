@@ -231,7 +231,7 @@ export default function Chatbot() {
             </div>
 
             {/* Chat Messages */}
-            <ScrollArea className="flex-1 p-4">
+            <ScrollArea className="flex-1 p-4 min-h-0">
                 <div className="space-y-4">
                 {messages.map((message) => (
                     <div
