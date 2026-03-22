@@ -1,6 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card"; //FIXME Cannot find module '@/src/components/ui/card' or its corresponding type declarations.
-// my folder structure has a src folder that contains both app and components
-// this file is in app and it cannot find the components folder for some reason
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { Suspense } from "react";
 
 async function ErrorContent({

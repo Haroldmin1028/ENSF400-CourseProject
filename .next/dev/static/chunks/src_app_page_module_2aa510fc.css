@@ -1,0 +1,128 @@
+/* [project]/src/app/page.module.css [app-client] (css) */
+.page-module___8aEwW__container {
+  flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+}
+
+.page-module___8aEwW__hero {
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  display: flex;
+}
+
+.page-module___8aEwW__title {
+  letter-spacing: -1px;
+  margin: 0 0 12px;
+  font-size: 56px;
+  font-weight: 800;
+}
+
+.page-module___8aEwW__tagline {
+  opacity: .95;
+  margin: 0 0 24px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.page-module___8aEwW__description {
+  opacity: .9;
+  max-width: 600px;
+  margin: 0 0 32px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.page-module___8aEwW__cta {
+  color: #667eea;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+  display: inline-block;
+  box-shadow: 0 4px 15px #0003;
+}
+
+.page-module___8aEwW__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px #0000004d;
+}
+
+.page-module___8aEwW__features {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
+  display: grid;
+}
+
+.page-module___8aEwW__feature {
+  text-align: center;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 32px;
+  transition: transform .3s, box-shadow .3s;
+}
+
+.page-module___8aEwW__feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px #0000001a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .page-module___8aEwW__feature {
+    background: #1a1a1a;
+  }
+}
+
+.page-module___8aEwW__featureIcon {
+  margin-bottom: 16px;
+  font-size: 48px;
+  display: block;
+}
+
+.page-module___8aEwW__feature h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.page-module___8aEwW__feature p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  .page-module___8aEwW__feature p {
+    color: #a0a0a0;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-module___8aEwW__title {
+    font-size: 40px;
+  }
+
+  .page-module___8aEwW__tagline {
+    font-size: 20px;
+  }
+
+  .page-module___8aEwW__description {
+    font-size: 14px;
+  }
+}
+
+/*# sourceMappingURL=src_app_page_module_2aa510fc.css.map*/
