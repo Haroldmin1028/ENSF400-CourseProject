@@ -34,7 +34,7 @@ export default function Chatbot() {
         scrollToBottom();
     }, [messages]);
 
-    const handleSendMessage = (e: React.FormEvent) => {
+    const handleSendMessage = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!inputMessage.trim()) return;
 
@@ -48,39 +48,79 @@ export default function Chatbot() {
         setInputMessage("");
         setIsTyping(true);
 
-        // Simulate AI response with varied responses
-        setTimeout(() => {
-            const aiResponses = [
-                "Great question! When substituting ingredients, it's important to consider the role they play in the recipe. For example, butter provides moisture and flavor, so if you're replacing it, coconut oil or vegetable oil work well for moisture, but you might want to add a pinch of salt for flavor.",
-                "Absolutely! The key to perfectly cooked pasta is to salt your water generously (it should taste like the sea) and cook it until it's al dente - firm to the bite. Always save some pasta water before draining, as the starchy water helps your sauce cling to the pasta beautifully!",
-                "That's a wonderful idea! To meal prep successfully, choose recipes that store well - soups, stews, grain bowls, and roasted vegetables are great options. Invest in good quality airtight containers and label everything with dates. Most meals will keep for 3-4 days in the fridge.",
-                "For a dairy-free version, you can use coconut milk, almond milk, or oat milk depending on what you're making. For cream-based sauces, full-fat coconut milk works wonderfully. For baking, oat milk is often the best substitute as it has a neutral flavor and good consistency.",
-                "The secret to crispy chicken skin is to make sure it's completely dry before cooking! Pat it with paper towels, then let it air-dry in the fridge uncovered for a few hours or overnight. High heat and not moving it too much while cooking also helps achieve that perfect golden crisp.",
-                "Excellent question! You can reduce sugar in most recipes by 25-30% without drastically affecting the outcome. In baking, you might need to adjust liquid slightly. You can also substitute with natural sweeteners like honey or maple syrup, but remember they're sweeter, so use less.",
-                "When your vegetables turn out soggy, it's usually because of overcrowding in the pan or too low heat. Give your veggies space to breathe - they should be in a single layer. Use high heat and don't stir too frequently. This allows moisture to evaporate and creates those delicious caramelized edges!",
-                "For perfectly cooked rice every time, use the right water ratio (usually 1:2 rice to water for white rice), bring to a boil, then reduce to the lowest heat and cover tightly. Don't peek! Let it steam for 15-18 minutes, then let it rest off heat for 5 minutes before fluffing.",
-                "Food safety is crucial! Raw chicken should be stored at 40°F or below and used within 1-2 days. Always use separate cutting boards for raw meat and vegetables to avoid cross-contamination. Cook chicken to an internal temperature of 165°F to ensure it's safe to eat.",
-                "Great thinking about flavor! Building layers of flavor starts with aromatics like onions, garlic, and ginger. Toast your spices to release their oils, add acid (like lemon juice or vinegar) to brighten dishes, and don't forget salt - it enhances all other flavors. Finish with fresh herbs for a pop of freshness!",
-            ];
+        // // Simulate AI response with varied responses
+        // setTimeout(() => {
+        //     const aiResponses = [
+        //         "Great question! When substituting ingredients, it's important to consider the role they play in the recipe. For example, butter provides moisture and flavor, so if you're replacing it, coconut oil or vegetable oil work well for moisture, but you might want to add a pinch of salt for flavor.",
+        //         "Absolutely! The key to perfectly cooked pasta is to salt your water generously (it should taste like the sea) and cook it until it's al dente - firm to the bite. Always save some pasta water before draining, as the starchy water helps your sauce cling to the pasta beautifully!",
+        //         "That's a wonderful idea! To meal prep successfully, choose recipes that store well - soups, stews, grain bowls, and roasted vegetables are great options. Invest in good quality airtight containers and label everything with dates. Most meals will keep for 3-4 days in the fridge.",
+        //         "For a dairy-free version, you can use coconut milk, almond milk, or oat milk depending on what you're making. For cream-based sauces, full-fat coconut milk works wonderfully. For baking, oat milk is often the best substitute as it has a neutral flavor and good consistency.",
+        //         "The secret to crispy chicken skin is to make sure it's completely dry before cooking! Pat it with paper towels, then let it air-dry in the fridge uncovered for a few hours or overnight. High heat and not moving it too much while cooking also helps achieve that perfect golden crisp.",
+        //         "Excellent question! You can reduce sugar in most recipes by 25-30% without drastically affecting the outcome. In baking, you might need to adjust liquid slightly. You can also substitute with natural sweeteners like honey or maple syrup, but remember they're sweeter, so use less.",
+        //         "When your vegetables turn out soggy, it's usually because of overcrowding in the pan or too low heat. Give your veggies space to breathe - they should be in a single layer. Use high heat and don't stir too frequently. This allows moisture to evaporate and creates those delicious caramelized edges!",
+        //         "For perfectly cooked rice every time, use the right water ratio (usually 1:2 rice to water for white rice), bring to a boil, then reduce to the lowest heat and cover tightly. Don't peek! Let it steam for 15-18 minutes, then let it rest off heat for 5 minutes before fluffing.",
+        //         "Food safety is crucial! Raw chicken should be stored at 40°F or below and used within 1-2 days. Always use separate cutting boards for raw meat and vegetables to avoid cross-contamination. Cook chicken to an internal temperature of 165°F to ensure it's safe to eat.",
+        //         "Great thinking about flavor! Building layers of flavor starts with aromatics like onions, garlic, and ginger. Toast your spices to release their oils, add acid (like lemon juice or vinegar) to brighten dishes, and don't forget salt - it enhances all other flavors. Finish with fresh herbs for a pop of freshness!",
+        //     ];
 
-            const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+        //     const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+
+        //     const aiMessage: Message = {
+        //         id: (Date.now() + 1).toString(),
+        //         role: "assistant",
+        //         content: randomResponse,
+        //     };
+
+        //     setMessages((prev) => [...prev, aiMessage]);
+        //     setIsTyping(false);
+        // }, 1200);
+
+        // Get the AI response from the Python Gemini REST API
+        try {
+            const response = await fetch("http://localhost:8000/gemini_api/generate_prompt", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "prompt": inputMessage
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const jsonResponse = await response.json()
 
             const aiMessage: Message = {
                 id: (Date.now() + 1).toString(),
                 role: "assistant",
-                content: randomResponse,
+                content: jsonResponse.answer,
             };
 
             setMessages((prev) => [...prev, aiMessage]);
+        }
+        catch (error) {
+            console.error("Request to backend API failed with error: ", error);
+            const aiMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                role: "assistant",
+                content: "Unfortunately, an unexpected error occurred while processing your question. Can you ask me again?",
+            };
+
+            setMessages((prev) => [...prev, aiMessage]);
+        }
+        finally {
             setIsTyping(false);
-        }, 1200);
+        }
     };
 
     const suggestedQuestions = [
         "How do I make perfect scrambled eggs?",
         "What's a good substitute for eggs in baking?",
         "How can I make my vegetables more flavorful?",
-        "Tips for meal prep for the week?",
+        "Tips for meal prep      the week?",
         "How do I know when meat is cooked properly?",
         "What herbs go well with chicken?",
     ];
