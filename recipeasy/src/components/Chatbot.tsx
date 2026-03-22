@@ -5,6 +5,7 @@ import { Star, Send, Sparkles, ChefHat, Minimize2, Maximize2 } from "lucide-reac
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
+import ReactMarkdown from "react-markdown"
 
 interface Message {
   id: string;
@@ -262,7 +263,9 @@ export default function Chatbot() {
                             : "bg-[#F5F5F5] text-[#4a5240] border-2 border-[#9CAF88]/30"
                         }`}
                         >
-                        <p className="text-sm leading-relaxed">{message.content}</p>
+                        <div className="prose prose-sm max-w-none">
+                            <ReactMarkdown>{message.content}</ReactMarkdown>
+                        </div>
                         </div>
                     </div>
                     </div>
