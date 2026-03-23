@@ -292,7 +292,7 @@ export default function Chatbot({ recipe }: RecipeDisplayProps) {
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
                         placeholder="Ask me anything..."
-                        className="flex-1 border-2 border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20"
+                        className="flex-1 border-2 border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 text-[#4a5240]"
                         disabled={isTyping}
                     />
                     <Button
