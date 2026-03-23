@@ -136,17 +136,6 @@ export default function SignupForm() {
         </svg>
       </div>
 
-      {/* Logo/Brand Section */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
-        <Image
-            src="/recipeasylogo.png"
-            alt="RecipEasy Logo"
-            width={200}
-            height={200}
-            className="w-full h-auto mx-auto"
-            priority
-        />
-      </div>
 
       {/* Main Card */}
       <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 relative z-10">
