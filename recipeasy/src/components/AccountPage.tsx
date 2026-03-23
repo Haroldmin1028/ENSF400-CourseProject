@@ -7,15 +7,16 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card } from "./ui/card";
+import { createClient } from "@/lib/supabase/client";
 
 export default function AccountPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
-    username: "ChefMaria",
-    email: "maria.chef@example.com",
-    fullName: "Maria Rodriguez",
-    password: "••••••••",
-    bio: "Passionate home cook sharing family recipes",
+    username: "",
+    email: "",
+    fullName: "",
+    password: "[password changing not implemented]",
+    bio: "",
   });
 
   const [editedProfile, setEditedProfile] = useState(profile);
@@ -55,10 +56,19 @@ export default function AccountPage() {
   const handleEdit = () => {
     setIsEditing(true);
     setEditedProfile(profile);
+
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setProfile(editedProfile);
+    const supabase = createClient();
+    const { data: { session } } = await supabase.auth.getSession()
+    const userId = session?.user?.id
+    const { error } = await supabase
+      .from('profile')
+      .update({ username: profile.username, full_name: profile.fullName, bio: profile.bio, email: profile.email })
+      .eq('id', userId)
+    if (error) throw error;
     setIsEditing(false);
   };
 

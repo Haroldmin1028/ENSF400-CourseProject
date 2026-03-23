@@ -1,11 +1,21 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -14,14 +24,49 @@ export default function SignupForm() {
     password: "",
     confirmPassword: "",
   });
+  /*
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  */
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const supabase = createClient();
+    setIsLoading(true);
+    setError(null);
+    console.log("Sign up:", formData);
+    
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match!");
+      setError("Passwords do not match");
+      setIsLoading(false);
       return;
     }
-    console.log("Sign up:", formData);
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`,
+        },
+      });
+      if (error) throw error;
+      else{
+        const { error } = await supabase
+        .from('profiles')
+        .insert({ username: formData.email, full_name: formData.name, email: formData.email })
+        if (error) throw error;
+      }
+      router.push("/");
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +168,7 @@ export default function SignupForm() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
+                  className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white text-black"
               />
           </div>
 
@@ -138,7 +183,7 @@ export default function SignupForm() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
+                  className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white text-black"
               />
           </div>
 
@@ -153,7 +198,7 @@ export default function SignupForm() {
               value={formData.password}
               onChange={handleChange}
               required
-              className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
+              className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white text-black"
               />
           </div>
 
@@ -168,11 +213,11 @@ export default function SignupForm() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
-                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
+                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white text-black"
               />
           </div>
 
-          <Button type="submit" className="w-full bg-[#6B4423] hover:bg-[#8B5A2B] text-white transition-colors">
+          <Button type="submit" className="w-full bg-[#6B4423] hover:bg-[#8B5A2B] text-white transition-colors"  disabled={isLoading}>
               Sign Up
           </Button>
           </form>
