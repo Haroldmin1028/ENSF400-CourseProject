@@ -1,20 +1,43 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import { createClient } from "@/lib/supabase/client";
+
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Login:", { email, password });
-    // Mock login functionality
+    
+    const supabase = createClient();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) throw error;
+      // Update this route to redirect to an authenticated route. The user already has an active session.
+      router.push("/search");
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -110,7 +133,7 @@ export default function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white "
+              className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white text-black"
             />
           </div>
 
@@ -125,15 +148,16 @@ export default function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white"
+            className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white text-black"
             />
           </div>
-
+          {error && <p className="text-sm text-red-500">{error}</p>}
           <Button
             type="submit"
             className="w-full bg-[#6B4423] hover:bg-[#8B5A2B] text-white transition-colors"
+            disabled={isLoading}
           >
-            Log In
+            {isLoading ? "Logging in..." : "Login"}
           </Button>
         </form>
 

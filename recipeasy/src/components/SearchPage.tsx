@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
 // IMPORTANT: Ensure this path correctly points to your lib/recipe.ts file
-import { searchMealsByKeyword } from "../lib/recipe"; 
+import { searchMealsByKeyword, filterMealsByCategory, filterMealsByIngredient, filterMealsByArea } from "@/lib/recipe";
 
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");

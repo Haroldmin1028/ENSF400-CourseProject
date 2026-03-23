@@ -7,16 +7,54 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card } from "./ui/card";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect } from 'react';
+
 
 export default function AccountPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
-    username: "ChefMaria",
-    email: "maria.chef@example.com",
-    fullName: "Maria Rodriguez",
-    password: "••••••••",
-    bio: "Passionate home cook sharing family recipes",
+    username: "",
+    email: "",
+    fullName: "",
+    password: "[password changing not implemented]",
+    bio: "",
   });
+
+  useEffect(() => {
+    // This code runs once after the initial render
+    console.log("Page has loaded on the client!");
+    
+    const loadUser = async () => {
+      try {
+        const supabase = createClient();
+        const { data: { session } } = await supabase.auth.getSession()
+        const userID = session?.user?.id; //does display expected id, that is the primary key of an entry in the profiles table
+        console.log(`userID = ${userID}`);
+        const { data, error } = await supabase //FIXME AccountPage.tsx:32 Uncaught (in promise) TypeError: Cannot read properties of null (reading 'user')
+          .from('profiles')
+          .select()
+          .eq('id', userID)
+          .single();
+        if (error) throw error;
+        if (!data) {
+          throw new Error("User not returned");
+        }
+        const user = data;
+        setProfile({
+          username: user.username,
+          email: user.email,
+          fullName: user.full_name,
+          password: profile.password,
+          bio: user.bio
+        });
+        console.log("user data loaded")
+      } catch (err) {
+        console.error("Update failed:", err);
+      }
+    };
+    loadUser();
+  }, []); // Empty dependency array ensures it only runs once
 
   const [editedProfile, setEditedProfile] = useState(profile);
 
@@ -57,8 +95,20 @@ export default function AccountPage() {
     setEditedProfile(profile);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setProfile(editedProfile);
+    try {
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession()
+      const userId = session?.user?.id
+      const { error } = await supabase
+        .from('profiles')
+        .update({ username: profile.username, full_name: profile.fullName, bio: profile.bio, email: profile.email })
+        .eq('id', userId)
+      if (error) throw error;
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
     setIsEditing(false);
   };
 
@@ -68,7 +118,8 @@ export default function AccountPage() {
   };
 
   const handleChange = (field: string, value: string) => {
-    setEditedProfile({ ...editedProfile, [field]: value });
+    if (field != 'password') //TODO remove once password changing is implemented
+      setEditedProfile({ ...editedProfile, [field]: value });
   };
 
   return (
@@ -197,7 +248,7 @@ export default function AccountPage() {
                 value={isEditing ? editedProfile.username : profile.username}
                 onChange={(e) => handleChange("username", e.target.value)}
                 disabled={!isEditing}
-                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default"
+                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default text-black"
               />
             </div>
 
@@ -210,7 +261,7 @@ export default function AccountPage() {
                 value={isEditing ? editedProfile.fullName : profile.fullName}
                 onChange={(e) => handleChange("fullName", e.target.value)}
                 disabled={!isEditing}
-                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default"
+                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default text-black"
               />
             </div>
 
@@ -224,7 +275,7 @@ export default function AccountPage() {
                 value={isEditing ? editedProfile.email : profile.email}
                 onChange={(e) => handleChange("email", e.target.value)}
                 disabled={!isEditing}
-                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default"
+                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default text-black"
               />
             </div>
 
@@ -234,11 +285,11 @@ export default function AccountPage() {
               </Label>
               <Input
                 id="password"
-                type="password"
+                type="text" //TODO change this back to "password" once password changing works
                 value={isEditing ? editedProfile.password : profile.password}
                 onChange={(e) => handleChange("password", e.target.value)}
                 disabled={!isEditing}
-                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default"
+                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default text-black"
               />
             </div>
 
@@ -251,7 +302,7 @@ export default function AccountPage() {
                 value={isEditing ? editedProfile.bio : profile.bio}
                 onChange={(e) => handleChange("bio", e.target.value)}
                 disabled={!isEditing}
-                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default"
+                className="border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20 bg-white disabled:opacity-100 disabled:cursor-default text-black"
               />
             </div>
           </div>

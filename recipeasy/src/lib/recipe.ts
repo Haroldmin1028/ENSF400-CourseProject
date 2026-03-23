@@ -17,6 +17,7 @@ export interface Recipe {
   thumbnail?: string;
 }
 
+
 interface MealDBRecipe {
   idMeal: string;
   strMeal: string;
@@ -28,6 +29,19 @@ interface MealDBRecipe {
   strYoutube?: string;
   ingredients: string[];
 }
+
+const mealDBUrl = "https://www.themealdb.com/api/json/v1/1/";
+async function recipe_fetch(query: string) {
+  const response = await fetch(mealDBUrl + query, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'json',
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
 
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseAnonKey = process.env.SUPABASE_PUB_KEY!;
@@ -47,8 +61,8 @@ function parseIngredients(meal: any): string[] {
 }
 
 export async function searchMealsByKeyword(keyword: string): Promise<MealDBRecipe[]> {
-  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(keyword)}`);
-  const data = (await res.json()) as { meals: any[] | null }; 
+  const res = await recipe_fetch(`search.php?s=${encodeURIComponent(keyword)}`);
+  const data = res as { meals: any[] | null }; 
 
   if (!data.meals) return [];
 
@@ -58,10 +72,9 @@ export async function searchMealsByKeyword(keyword: string): Promise<MealDBRecip
   }));
 }
 
-export async function filterMealsByCategory(category: string): Promise<MealDBRecipe[]> {
-  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${encodeURIComponent(category)}`);
-  const raw = await res.json();
-  const data = raw as { meals: { idMeal: string; strMeal: string; strMealThumb: string }[] | null }; // ✅ Type assertion
+async function filterMeals(query: string, method: string): Promise<MealDBRecipe[]> {
+  const res = await recipe_fetch(`filter.php?${method}=${encodeURIComponent(query)}`);
+  const data = res as { meals: { idMeal: string; strMeal: string; strMealThumb: string }[] | null }; // ✅ Type assertion
 
   if (!data.meals) return [];
 
@@ -74,10 +87,22 @@ export async function filterMealsByCategory(category: string): Promise<MealDBRec
   return meals;
 }
 
+export async function filterMealsByCategory(category: string): Promise<MealDBRecipe[]> {
+  const meals = await filterMeals(category, 'c');
+  return meals;
+}
+export async function filterMealsByIngredient(category: string): Promise<MealDBRecipe[]> {
+  const meals = await filterMeals(category, 'i');
+  return meals;
+}
+export async function filterMealsByArea(category: string): Promise<MealDBRecipe[]> {
+  const meals = await filterMeals(category, 'a');
+  return meals;
+}
+
 export async function getMealById(id: string): Promise<MealDBRecipe | null> {
-  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-  const raw = await res.json();
-  const data = raw as { meals: any[] | null }; // ✅ Type assertion
+  const res = await recipe_fetch(`lookup.php?i=${id}`);
+  const data = res as { meals: any[] | null }; // ✅ Type assertion
 
   if (!data.meals || data.meals.length === 0) return null;
 
@@ -88,6 +113,10 @@ export async function getMealById(id: string): Promise<MealDBRecipe | null> {
   };
 }
 
+//ingredient links can have -small, -medium, and -large appended
+const ingredient_url = "https://www.themealdb.com/images/ingredients/";
+//ingredient images are snake_case pngs
+export let getIngredientImg = (name: string): string => ingredient_url+name.replace(/ /g, "_");
 
 export async function getAllRecipesSorted(): Promise<Recipe[]> {
   const { data, error } = await supabase.rpc('get_all_recipes_sorted_by_category_array', {
@@ -256,3 +285,24 @@ async function deleteRows<T = any[]>(
 
   return (rpcData || []) as T;
 }
+
+//below is an example use of this module
+/*
+import { Suspense } from "react";
+import { searchMealsByKeyword } from "@/lib/recipe";
+
+async function MealDBRecipesData() {
+  const recipes = await searchMealsByKeyword("ice");
+  const recipe_string = JSON.stringify(recipes, null, 2);
+  //console.log(recipe_string);
+  return <pre>{recipe_string}</pre>;
+}
+
+export default async function Recipes() {
+  return (
+    <Suspense fallback={<div>Loading Recipes...</div>}>
+      <MealDBRecipesData />
+    </Suspense>
+  );
+}
+*/
