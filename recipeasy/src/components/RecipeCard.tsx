@@ -1,71 +1,50 @@
 "use client";
 
 import Image from "next/image";
-import styles from "./RecipeCard.module.css";
+import Link from "next/link";
 
 interface RecipeCardProps {
   id: string;
   title: string;
   image: string;
-  rating: number;
-  prepTime: number;
-  servings: number;
-  difficulty: "Easy" | "Medium" | "Hard";
-  tags: string[];
+  category: string;
+  area: string;
 }
 
-export default function RecipeCard({
-  id,
-  title,
-  image,
-  rating,
-  prepTime,
-  servings,
-  difficulty,
-  tags,
-}: RecipeCardProps) {
+export default function RecipeCard({ id, title, image, category, area }: RecipeCardProps) {
   return (
-    <div className={styles.card}>
-      <div className={styles.imageContainer}>
-        {/* <Image
-          src={image}
-          alt={title}
-          width={300}
-          height={200}
-          className={styles.image}
-          priority={false}
-        /> */}
-        <span className={`${styles.difficulty} ${styles[difficulty.toLowerCase()]}`}>
-          {difficulty}
-        </span>
-      </div>
-      
-      <div className={styles.content}>
-        <h3 className={styles.title}>{title}</h3>
+    <Link href={`/recipe/${id}`} className="block h-full outline-none">
+      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col border-2 border-[#9CAF88]/20 hover:border-[#6B4423]/50 hover:-translate-y-1">
         
-        <div className={styles.metadata}>
-          <div className={styles.metaItem}>
-            <span className={styles.icon}>⏱️</span>
-            <span>{prepTime} min</span>
-          </div>
-          <div className={styles.metaItem}>
-            <span className={styles.icon}>👥</span>
-            <span>{servings} servings</span>
-          </div>
-          <div className={styles.metaItem}>
-            <span className={styles.icon}>⭐</span>
-            <span>{rating.toFixed(1)}</span>
+        {/* Image Container */}
+        <div className="relative w-full h-48 bg-[#9CAF88]/10">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          {/* Category Badge */}
+          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-bold text-[#6B4423] shadow-sm">
+            {category}
           </div>
         </div>
         
-        <div className={styles.tags}>
-          {tags.slice(0, 2).map((tag) => (
-            <span key={tag} className={styles.tag}>
-              {tag}
-            </span>
-          ))}
+        {/* Content Container */}
+        <div className="p-5 flex flex-col flex-grow">
+          <h3 className="text-lg font-bold text-[#4a5240] mb-2 line-clamp-2 leading-tight">
+            {title}
+          </h3>
+          
+          {/* Area/Region */}
+          <div className="mt-auto pt-4 flex items-center text-sm text-[#6B4423] font-medium border-t border-[#9CAF88]/20">
+            <span className="mr-2">📍</span>
+            {area} Cuisine
+          </div>
         </div>
+
       </div>
-    </div>
+    </Link>
   );
 }

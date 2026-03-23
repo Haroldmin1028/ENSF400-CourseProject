@@ -1,10 +1,12 @@
-import Chatbot from "../../components/Chatbot";
-import RecipeDisplay from "../../components/RecipeDisplay";
-import { getMealById, Recipe } from "../../lib/recipe";
+import Chatbot from "../../../components/Chatbot";
+import RecipeDisplay from "../../../components/RecipeDisplay";
+import { getMealById, Recipe } from "../../../lib/recipe";
 
-export default async function RecipePage() {
-  // Fetch real data from MealDB (ID 52772 is Teriyaki Chicken Casserole)
-  const mealDbData = await getMealById("52772");
+export default async function RecipePage({ params }: { params: Promise<{ id: string }> }) {
+  // Fetch real data from MealDB
+  const resolvedParams = await params;
+
+  const mealDbData = await getMealById(resolvedParams.id);
 
   // Fallback UI just in case the API is down or the ID is invalid
   if (!mealDbData) {
