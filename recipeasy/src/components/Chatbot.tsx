@@ -131,68 +131,7 @@ export default function Chatbot() {
     };
 
     return (
-        <div className="min-h-screen bg-[#9CAF88] relative overflow-hidden">
-            {/* Decorative Corner Borders */}
-            <div className="absolute top-0 left-0 w-48 h-48 pointer-events-none">
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                <path
-                    d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
-                    stroke="white"
-                    strokeWidth="2"
-                    fill="none"
-                    opacity="0.6"
-                />
-                <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
-                <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
-                <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
-                </svg>
-            </div>
-
-            <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none rotate-90">
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                <path
-                    d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
-                    stroke="white"
-                    strokeWidth="2"
-                    fill="none"
-                    opacity="0.6"
-                />
-                <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
-                <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
-                <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
-                </svg>
-            </div>
-
-            <div className="absolute bottom-0 left-0 w-48 h-48 pointer-events-none -rotate-90">
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                <path
-                    d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
-                    stroke="white"
-                    strokeWidth="2"
-                    fill="none"
-                    opacity="0.6"
-                />
-                <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
-                <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
-                <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
-                </svg>
-            </div>
-
-            <div className="absolute bottom-0 right-0 w-48 h-48 pointer-events-none rotate-180">
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                <path
-                    d="M 10 10 Q 10 10 40 15 Q 60 18 80 12 Q 100 6 110 20 M 110 20 Q 115 30 108 45 Q 100 65 110 80 M 15 10 L 15 110 M 18 15 Q 20 50 15 80 Q 12 100 18 110"
-                    stroke="white"
-                    strokeWidth="2"
-                    fill="none"
-                    opacity="0.6"
-                />
-                <circle cx="30" cy="25" r="3" fill="white" opacity="0.6" />
-                <circle cx="50" cy="30" r="2" fill="white" opacity="0.6" />
-                <circle cx="25" cy="50" r="2" fill="white" opacity="0.6" />
-                </svg>
-            </div>
-
+        <>
             {/* Minimized Chatbot Button */}
             {!isMaximized && (
             <button
@@ -204,151 +143,150 @@ export default function Chatbot() {
             )}
 
             {/* Maximized Chatbot */}
-      {isMaximized && (
-        <div className="fixed bottom-6 right-6 w-[450px] h-[700px] bg-white/98 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-[#9CAF88] flex flex-col z-50">
-          {/* Chat Header */}
-          <div className="bg-gradient-to-r from-[#6B4423] to-[#8B5A2B] text-white p-4 rounded-t-2xl">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-white">Gemini Ramsey</h3>
-                  <p className="text-white/80 text-xs">
-                    Your AI culinary companion
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => setIsMaximized(false)}
-                className="hover:bg-white/20 p-2 rounded transition-colors"
-              >
-                <Minimize2 className="w-5 h-5" />
-              </button>
-            </div>
-
-            
-            </div>
-
-            {/* Chat Messages */}
-            <ScrollArea className="flex-1 p-4 min-h-0">
-                <div className="space-y-4">
-                {messages.map((message) => (
-                    <div
-                    key={message.id}
-                    className={`flex ${
-                        message.role === "user" ? "justify-end" : "justify-start"
-                    }`}
+            {isMaximized && (
+            <div className="fixed bottom-6 right-6 w-[450px] h-[700px] bg-white/98 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-[#9CAF88] flex flex-col z-50">
+                {/* Chat Header */}
+                <div className="bg-gradient-to-r from-[#6B4423] to-[#8B5A2B] text-white p-4 rounded-t-2xl">
+                <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <Sparkles className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <h3 className="text-white">Gemini Ramsey</h3>
+                        <p className="text-white/80 text-xs">
+                        Your AI culinary companion
+                        </p>
+                    </div>
+                    </div>
+                    <button
+                    onClick={() => setIsMaximized(false)}
+                    className="hover:bg-white/20 p-2 rounded transition-colors"
                     >
-                    <div
-                        className={`max-w-[85%] ${
-                        message.role === "user" ? "order-2" : "order-1"
-                        }`}
-                    >
-                        {message.role === "assistant" && (
-                        <div className="flex items-center gap-2 mb-1">
-                            <div className="w-6 h-6 bg-gradient-to-br from-[#6B4423] to-[#8B5A2B] rounded-full flex items-center justify-center">
-                            <Sparkles className="w-3 h-3 text-white" />
-                            </div>
-                            <span className="text-xs text-[#6B4423]">
-                            Gemini
-                            </span>
-                        </div>
-                        )}
+                    <Minimize2 className="w-5 h-5" />
+                    </button>
+                </div>
+
+                
+                </div>
+
+                {/* Chat Messages */}
+                <ScrollArea className="flex-1 p-4 min-h-0">
+                    <div className="space-y-4">
+                    {messages.map((message) => (
                         <div
-                        className={`rounded-2xl px-4 py-2.5 ${
-                            message.role === "user"
-                            ? "bg-[#9CAF88] text-white ml-auto"
-                            : "bg-[#F5F5F5] text-[#4a5240] border-2 border-[#9CAF88]/30"
+                        key={message.id}
+                        className={`flex ${
+                            message.role === "user" ? "justify-end" : "justify-start"
                         }`}
                         >
-                        <div className="prose prose-sm max-w-none">
-                            <ReactMarkdown>{message.content}</ReactMarkdown>
+                        <div
+                            className={`max-w-[85%] ${
+                            message.role === "user" ? "order-2" : "order-1"
+                            }`}
+                        >
+                            {message.role === "assistant" && (
+                            <div className="flex items-center gap-2 mb-1">
+                                <div className="w-6 h-6 bg-gradient-to-br from-[#6B4423] to-[#8B5A2B] rounded-full flex items-center justify-center">
+                                <Sparkles className="w-3 h-3 text-white" />
+                                </div>
+                                <span className="text-xs text-[#6B4423]">
+                                Gemini
+                                </span>
+                            </div>
+                            )}
+                            <div
+                            className={`rounded-2xl px-4 py-2.5 ${
+                                message.role === "user"
+                                ? "bg-[#9CAF88] text-white ml-auto"
+                                : "bg-[#F5F5F5] text-[#4a5240] border-2 border-[#9CAF88]/30"
+                            }`}
+                            >
+                            <div className="prose prose-sm max-w-none">
+                                <ReactMarkdown>{message.content}</ReactMarkdown>
+                            </div>
+                            </div>
                         </div>
                         </div>
-                    </div>
-                    </div>
-                ))}
+                    ))}
 
-                {isTyping && (
-                    <div className="flex justify-start">
-                    <div className="max-w-[85%]">
-                        <div className="flex items-center gap-2 mb-1">
-                        <div className="w-6 h-6 bg-gradient-to-br from-[#6B4423] to-[#8B5A2B] rounded-full flex items-center justify-center">
-                            <Sparkles className="w-3 h-3 text-white" />
+                    {isTyping && (
+                        <div className="flex justify-start">
+                        <div className="max-w-[85%]">
+                            <div className="flex items-center gap-2 mb-1">
+                            <div className="w-6 h-6 bg-gradient-to-br from-[#6B4423] to-[#8B5A2B] rounded-full flex items-center justify-center">
+                                <Sparkles className="w-3 h-3 text-white" />
+                            </div>
+                            <span className="text-xs text-[#6B4423]">
+                                Gemini
+                            </span>
+                            </div>
+                            <div className="bg-[#F5F5F5] border-2 border-[#9CAF88]/30 rounded-2xl px-4 py-2.5">
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 bg-[#6B4423] rounded-full animate-bounce"></div>
+                                <div
+                                className="w-2 h-2 bg-[#6B4423] rounded-full animate-bounce"
+                                style={{ animationDelay: "0.2s" }}
+                                ></div>
+                                <div
+                                className="w-2 h-2 bg-[#6B4423] rounded-full animate-bounce"
+                                style={{ animationDelay: "0.4s" }}
+                                ></div>
+                            </div>
+                            </div>
                         </div>
-                        <span className="text-xs text-[#6B4423]">
-                            Gemini
-                        </span>
                         </div>
-                        <div className="bg-[#F5F5F5] border-2 border-[#9CAF88]/30 rounded-2xl px-4 py-2.5">
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-[#6B4423] rounded-full animate-bounce"></div>
-                            <div
-                            className="w-2 h-2 bg-[#6B4423] rounded-full animate-bounce"
-                            style={{ animationDelay: "0.2s" }}
-                            ></div>
-                            <div
-                            className="w-2 h-2 bg-[#6B4423] rounded-full animate-bounce"
-                            style={{ animationDelay: "0.4s" }}
-                            ></div>
-                        </div>
-                        </div>
+                    )}
+
+                    <div ref={messagesEndRef} />
+                    </div>
+                </ScrollArea>
+
+                {/* Suggested Questions (only show when conversation is new) */}
+                {messages.length === 1 && (
+                    <div className="px-4 py-3 bg-[#9CAF88]/10 border-t border-[#9CAF88]/30">
+                    <p className="text-xs text-[#6B4423] mb-2">
+                        Suggested questions:
+                    </p>
+                    <div className="grid grid-cols-1 gap-2">
+                        {suggestedQuestions.slice(0, 3).map((question, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleSuggestionClick(question)}
+                            className="text-left px-3 py-2 bg-white border border-[#9CAF88] rounded-lg text-xs text-[#4a5240] hover:bg-[#9CAF88]/20 hover:border-[#6B4423] transition-colors"
+                        >
+                            <ChefHat className="w-3 h-3 inline mr-2 text-[#6B4423]" />
+                            {question}
+                        </button>
+                        ))}
                     </div>
                     </div>
                 )}
 
-                <div ref={messagesEndRef} />
-                </div>
-            </ScrollArea>
-
-            {/* Suggested Questions (only show when conversation is new) */}
-            {messages.length === 1 && (
-                <div className="px-4 py-3 bg-[#9CAF88]/10 border-t border-[#9CAF88]/30">
-                <p className="text-xs text-[#6B4423] mb-2">
-                    Suggested questions:
-                </p>
-                <div className="grid grid-cols-1 gap-2">
-                    {suggestedQuestions.slice(0, 3).map((question, index) => (
-                    <button
-                        key={index}
-                        onClick={() => handleSuggestionClick(question)}
-                        className="text-left px-3 py-2 bg-white border border-[#9CAF88] rounded-lg text-xs text-[#4a5240] hover:bg-[#9CAF88]/20 hover:border-[#6B4423] transition-colors"
+                {/* Chat Input */}
+                <form
+                    onSubmit={handleSendMessage}
+                    className="p-4 border-t-2 border-[#9CAF88]/30 bg-white rounded-b-2xl"
+                >
+                    <div className="flex gap-2">
+                    <Input
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        placeholder="Ask me anything..."
+                        className="flex-1 border-2 border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20"
+                        disabled={isTyping}
+                    />
+                    <Button
+                        type="submit"
+                        disabled={isTyping || !inputMessage.trim()}
+                        className="bg-[#6B4423] hover:bg-[#8B5A2B] text-white"
                     >
-                        <ChefHat className="w-3 h-3 inline mr-2 text-[#6B4423]" />
-                        {question}
-                    </button>
-                    ))}
-                </div>
+                        <Send className="w-4 h-4" />
+                    </Button>
+                    </div>
+                </form>
                 </div>
             )}
-
-            {/* Chat Input */}
-            <form
-                onSubmit={handleSendMessage}
-                className="p-4 border-t-2 border-[#9CAF88]/30 bg-white rounded-b-2xl"
-            >
-                <div className="flex gap-2">
-                <Input
-                    value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
-                    placeholder="Ask me anything..."
-                    className="flex-1 border-2 border-[#9CAF88] focus:border-[#6B4423] focus:ring-[#6B4423]/20"
-                    disabled={isTyping}
-                />
-                <Button
-                    type="submit"
-                    disabled={isTyping || !inputMessage.trim()}
-                    className="bg-[#6B4423] hover:bg-[#8B5A2B] text-white"
-                >
-                    <Send className="w-4 h-4" />
-                </Button>
-                </div>
-            </form>
-            </div>
-        )}
-
-        </div>
+        </>
     )
 }
