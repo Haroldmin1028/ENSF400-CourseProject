@@ -47,7 +47,7 @@ export default function SignupForm() {
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -55,12 +55,24 @@ export default function SignupForm() {
         },
       });
       if (error) throw error;
-      else{
-        const { error } = await supabase
-        .from('profiles')
-        .insert({ username: formData.email, full_name: formData.name, email: formData.email })
-        if (error) throw error;
+
+      const user = data.user;
+      if (!user) {
+        throw new Error("User not returned");
       }
+
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .insert({
+          id: user.id, // ✅ REQUIRED
+          username: formData.email,
+          full_name: formData.name,
+          email: formData.email,
+        });
+
+      if (profileError) throw profileError;
+      //FIXME one of these is throwing the following error:
+      //Failed to load resource: the server responded with a status of 422 ()
       router.push("/");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
