@@ -13,7 +13,22 @@ interface Message {
   content: string;
 }
 
-export default function Chatbot() {
+export interface Recipe {
+  id: string;
+  source: 'custom' | 'mealdb';
+  name: string;
+  category?: string;
+  area?: string;
+  ingredients?: string[];
+  instructions?: string;
+  thumbnail?: string;
+}
+
+interface RecipeDisplayProps {
+  recipe: Recipe;
+}
+
+export default function Chatbot({ recipe }: RecipeDisplayProps) {
     const [isMaximized, setIsMaximized] = useState(true);
     const [messages, setMessages] = useState<Message[]>([
         {
@@ -77,6 +92,24 @@ export default function Chatbot() {
         // }, 1200);
 
         // Get the AI response from the Python Gemini REST API
+
+        // Build a clean, formatted prompt for the AI
+        const formattedPrompt = `
+            You are an AI cooking assistant. The user is currently looking at the following recipe:
+
+            Recipe Name: ${recipe.name}
+            Category: ${recipe.category || 'Unknown'}
+            Area: ${recipe.area || 'Unknown'}
+            Ingredients: 
+            ${recipe.ingredients ? recipe.ingredients.join('\n- ') : 'None listed'}
+
+            Instructions: 
+            ${recipe.instructions || 'None listed'}
+
+            User's Question: ${inputMessage}
+                    `;
+
+        // Send the formatted prompt to our backend
         try {
             const response = await fetch("http://localhost:8000/gemini_api/generate_prompt", {
                 method: 'POST',
@@ -84,7 +117,7 @@ export default function Chatbot() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    "prompt": inputMessage
+                    "prompt": formattedPrompt
                 }),
             });
 

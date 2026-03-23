@@ -89,7 +89,7 @@ export default async function RecipePage() {
          <RecipeDisplay recipe={recipeData} />
       </div>
 
-      <Chatbot />
+      <Chatbot recipe={recipeData} />
       
     </main>
   )

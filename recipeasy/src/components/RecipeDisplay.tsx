@@ -75,13 +75,18 @@ export default function RecipeDisplay({ recipe }: RecipeDisplayProps) {
             <h3 className="text-2xl font-bold text-[#6B4423] mb-4 border-b-2 border-[#9CAF88]/30 pb-2">
               Instructions
             </h3>
-            <div className="text-[#4a5240] leading-relaxed whitespace-pre-wrap">
-              {recipe.instructions}
+            <div className="text-[#4a5240] leading-relaxed space-y-4">
+              {recipe.instructions
+                .split('\n') // Break the giant string into an array at every newline
+                .filter(recipeStep => recipeStep.trim() !== '') // Remove any weird blank lines from the API
+                .map((recipeStep, index) => (
+                  <p key={index}>{recipeStep.trim()}</p> // Render each step as its own paragraph
+                ))}
             </div>
           </div>
         )}
 
       </CardContent>
-    </Card>
+    </Card>     
   );
 }
