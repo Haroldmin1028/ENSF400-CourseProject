@@ -5,6 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import RecipeCard from "./RecipeCard";
 import styles from "./SearchPage.module.css";
+import { searchMealsByKeyword, filterMealsByCategory, filterMealsByIngredient, filterMealsByArea } from "@/lib/recipe";
+//TODO change the Recipe here and the one in lib/recipe to match
+//TODO implement searching for recipes with functions from lib/recipe
 
 interface Recipe {
   id: string;
