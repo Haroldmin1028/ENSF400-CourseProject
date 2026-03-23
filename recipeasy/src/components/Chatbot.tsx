@@ -6,26 +6,12 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 import ReactMarkdown from "react-markdown"
+import { RecipeDisplayProps } from "@/components/RecipeDisplay";
 
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
-}
-
-export interface Recipe {
-  id: string;
-  source: 'custom' | 'mealdb';
-  name: string;
-  category?: string;
-  area?: string;
-  ingredients?: string[];
-  instructions?: string;
-  thumbnail?: string;
-}
-
-interface RecipeDisplayProps {
-  recipe: Recipe;
 }
 
 export default function Chatbot({ recipe }: RecipeDisplayProps) {

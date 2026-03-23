@@ -2,19 +2,10 @@
 
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Recipe } from "@/lib/recipe";
 
-export interface Recipe {
-  id: string;
-  source: 'custom' | 'mealdb';
-  name: string;
-  category?: string;
-  area?: string;
-  ingredients?: string[];
-  instructions?: string;
-  thumbnail?: string;
-}
 
-interface RecipeDisplayProps {
+export interface RecipeDisplayProps {
   recipe: Recipe;
 }
 

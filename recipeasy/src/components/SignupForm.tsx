@@ -58,8 +58,6 @@ export default function SignupForm() {
         });
 
       if (profileError) throw profileError;
-      //FIXME one of these is throwing the following error:
-      //Failed to load resource: the server responded with a status of 422 ()
       router.push("/search");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");

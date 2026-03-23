@@ -43,8 +43,17 @@ async function recipe_fetch(query: string) {
 }
 
 
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseAnonKey = process.env.SUPABASE_PUB_KEY!;
+var url;
+var key;
+if (process.env.SUPABASE_URL) {
+  url = process.env.SUPABASE_URL!;
+  key = process.env.SUPABASE_PUB_KEY!;
+} else {
+  url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+}
+const supabaseUrl = url;
+const supabaseAnonKey = key;
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -116,7 +125,7 @@ export async function getMealById(id: string): Promise<MealDBRecipe | null> {
 //ingredient links can have -small, -medium, and -large appended
 const ingredient_url = "https://www.themealdb.com/images/ingredients/";
 //ingredient images are snake_case pngs
-export let getIngredientImg = (name: string): string => ingredient_url+name.replace(/ /g, "_");
+export let getIngredientImg = async (name: string): Promise<string> => ingredient_url+name.replace(/ /g, "_");
 
 export async function getAllRecipesSorted(): Promise<Recipe[]> {
   const { data, error } = await supabase.rpc('get_all_recipes_sorted_by_category_array', {
