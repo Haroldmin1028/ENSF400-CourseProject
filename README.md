@@ -1,6 +1,6 @@
 # RecipEasy
 
-This project was originally done as a project for ENSF 400, the software industry practices class at the Shulich School of Engineering at the University of Calgary. This project aims to build a website that people can use to generate dynamic recipes with the help of AI.
+This project was originally done as a project for the course Software Engineering Industry Practices and Communication (ENSF 400) at the Schulich School of Engineering at the University of Calgary. This project aims to build a website that people can use to generate dynamic recipes with the help of AI.
 
 ## Directory
 - [recipeasy](./recipeasy/) is the folder for the Next.js project that is integrated with supabase for storage.
