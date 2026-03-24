@@ -25,10 +25,12 @@ This project was originally done as a project for the course Software Engineerin
 
 2. In this terminal, first run ```npm install```
 
-3. Afterwards, run ```npm run dev``` which will run our frontend on the localhost.
+3. Note that you must also add another .env file WITHIN the /recipeasy directory (NOT the root directory) with the supabase API keys so that database functionality works as intended. API keys are provided in the submission dropbox notes.
 
-4. Open your desired web browser and type in ```http://localhost:3000```
+4. Afterwards, run ```npm run dev``` which will run our frontend on the localhost.
 
-5. You will be prompted to log in or sign up. Create an account if you don't have one.
+5. Open your desired web browser and type in ```http://localhost:3000```
 
-6. Once logging in, you can now search for recipes and edit your account.
+6. You will be prompted to log in or sign up. Create an account if you don't have one.
+
+7. Once logging in, you can now search for recipes and edit your account.
