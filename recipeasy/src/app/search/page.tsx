@@ -1,5 +1,7 @@
 import SearchPage from "@/components/SearchPage";
+import MenuBar from "@/components/MenuBar";
 
 export default function SearchRoute() {
-  return <SearchPage />;
+  return (
+    <div><MenuBar /><SearchPage /></div>);
 }

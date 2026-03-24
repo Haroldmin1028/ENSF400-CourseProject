@@ -1,4 +1,5 @@
 import Chatbot from "../../../components/Chatbot";
+import MenuBar from "../../../components/MenuBar";
 import RecipeDisplay from "../../../components/RecipeDisplay";
 import { getMealById, Recipe } from "../../../lib/recipe";
 
@@ -25,7 +26,10 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
   };
 
   return (
+    <div>
+       <MenuBar /> 
     <main className="min-h-screen bg-[#9CAF88] relative overflow-hidden p-6">
+    
       {/* Decorative Corner Borders */}
       <div className="absolute top-0 left-0 w-48 h-48 pointer-events-none">
           <svg viewBox="0 0 200 200" className="w-full h-full">
@@ -94,5 +98,6 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
       <Chatbot recipe={recipeData} />
       
     </main>
+    </div>
   )
 }

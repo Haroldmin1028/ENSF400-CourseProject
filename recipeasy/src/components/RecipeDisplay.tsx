@@ -4,13 +4,14 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Recipe } from "@/lib/recipe";
 
-
 export interface RecipeDisplayProps {
   recipe: Recipe;
 }
 
 export default function RecipeDisplay({ recipe }: RecipeDisplayProps) {
   return (
+    <div>
+    
     <Card className="w-full bg-white/95 backdrop-blur-sm shadow-xl border-0 overflow-hidden">
       {/* Recipe Image Banner */}
       {recipe.thumbnail && (
@@ -78,6 +79,7 @@ export default function RecipeDisplay({ recipe }: RecipeDisplayProps) {
         )}
 
       </CardContent>
-    </Card>     
+    </Card>
+    </div>   
   );
 }

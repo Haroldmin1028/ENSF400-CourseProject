@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import {signUp} from "@/lib/account";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SignupForm() {
@@ -34,6 +35,9 @@ export default function SignupForm() {
     }
 
     try {
+
+      signUp(formData.email, formData.password, formData.name, formData.name);
+      /*
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -51,13 +55,15 @@ export default function SignupForm() {
       const { error: profileError } = await supabase
         .from("profiles")
         .insert({
-          id: user.id, // ✅ REQUIRED
+          id: user.id, //  REQUIRED
           username: formData.email,
           full_name: formData.name,
           email: formData.email,
         });
 
       if (profileError) throw profileError;
+      */
+
       router.push("/search");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
