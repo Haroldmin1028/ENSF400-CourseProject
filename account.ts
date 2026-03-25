@@ -1,5 +1,4 @@
-import { config } from 'dotenv';
-config();
+import { createClient } from './supabase/client';
 
 interface Profile {
   id: string;
@@ -8,15 +7,9 @@ interface Profile {
   full_name: string;
   created_at: string | null;
 }
+const supabase = createClient();
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_PUB_KEY!;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-async function getProfileData<T = any>(
+export async function getProfileData<T = any>(
   value: string
 ): Promise<T> {
 
@@ -37,7 +30,7 @@ async function getProfileData<T = any>(
   return data as T;
 }
 
-async function changeUsername<T = Profile[]>(value: string): Promise<T> {
+export async function changeUsername<T = Profile[]>(value: string): Promise<T> {
   const userId = await getCurrentUserId(); 
   if (!userId) {
     throw new Error('No user ID found for the logged-in user');
@@ -64,7 +57,7 @@ async function changeUsername<T = Profile[]>(value: string): Promise<T> {
   return Array.isArray(rpcData) ? rpcData as T : [rpcData] as T;
 }
 
-async function changeFullName<T = Profile[]>(value: string): Promise<T> {
+export async function changeFullName<T = Profile[]>(value: string): Promise<T> {
   const userId = await getCurrentUserId(); 
   if (!userId) {
     throw new Error('No user ID found for the logged-in user');
@@ -91,7 +84,7 @@ async function changeFullName<T = Profile[]>(value: string): Promise<T> {
   return Array.isArray(rpcData) ? rpcData as T : [rpcData] as T;
 }
 
-async function changeBio<T = Profile[]>(value: string): Promise<T> {
+export async function changeBio<T = Profile[]>(value: string): Promise<T> {
   const userId = await getCurrentUserId(); 
   if (!userId) {
     throw new Error('No user ID found for the logged-in user');
@@ -119,7 +112,7 @@ async function changeBio<T = Profile[]>(value: string): Promise<T> {
 }
 
 
-async function signUp(
+export async function signUp(
   email: string,
   password: string,
   username: string,
@@ -139,14 +132,13 @@ async function signUp(
   });
 
   if (error) {
-    console.error('Sign up error:', error.message);
-    return;
+    throw new Error(`Error Signing up: ${error.message}`);
   }
 
   console.log('Sign up success:', data);
 }
 
-async function logIn(email: string, password: string) {
+export async function logIn(email: string, password: string) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -161,7 +153,7 @@ async function logIn(email: string, password: string) {
   return data.session;
 }
 
-async function changeEmail(newEmail: string) {
+export async function changeEmail(newEmail: string) {
   const { data, error } = await supabase.auth.updateUser({ email: newEmail.trim() });
 
   if (error) {
@@ -174,14 +166,14 @@ async function changeEmail(newEmail: string) {
   return data.user;
 }
 
-async function checkEmail() {
+export async function checkEmail() {
   const { data: { user }, error } = await supabase.auth.getUser();
   if (error) throw new Error(`Error fetching user: ${error.message}`);
   console.log('Current confirmed email:', user?.email);
   return user?.email;
 }
 
-async function changePassword(newPassword: string) {
+export async function changePassword(newPassword: string) {
   const { data, error } = await supabase.auth.updateUser({ password: newPassword });
 
   if (error) {
@@ -192,7 +184,7 @@ async function changePassword(newPassword: string) {
   console.log('Password updated successfully!');
 }
 
-async function getCurrentUserId(): Promise<string | null> {
+export async function getCurrentUserId(): Promise<string | null> {
   const { data: { user }, error } = await supabase.auth.getUser();
 
   if (error) {
@@ -203,7 +195,7 @@ async function getCurrentUserId(): Promise<string | null> {
   return user?.id ?? null;
 }
 
-async function getUsername(): Promise<string | null> {
+export async function getUsername(): Promise<string | null> {
   try {
     const userId = await getCurrentUserId();
 
@@ -218,7 +210,7 @@ async function getUsername(): Promise<string | null> {
   }
 }
 
-async function getFullName(): Promise<string | null> {
+export async function getFullName(): Promise<string | null> {
   try {
     const userId = await getCurrentUserId();
 
@@ -233,7 +225,7 @@ async function getFullName(): Promise<string | null> {
   }
 }
 
-async function getBio(): Promise<string | null> {
+export async function getBio(): Promise<string | null> {
   try {
     const userId = await getCurrentUserId();
 
@@ -248,10 +240,3 @@ async function getBio(): Promise<string | null> {
   }
 }
 
-(async () => {
-  try {
-    await logIn("uika@gmail.com", "newSecurePassword123")
-  } catch (err: any) {
-    console.error('Error changing username:', err.message ?? err);
-  }
-})();
