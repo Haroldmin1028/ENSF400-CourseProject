@@ -36,7 +36,7 @@ export default function SignupForm() {
 
     try {
 
-      signUp(formData.email, formData.password, formData.name, formData.name);
+      await signUp(formData.email, formData.password, formData.name, formData.name);
       /*
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
