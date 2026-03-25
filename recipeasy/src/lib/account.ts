@@ -132,8 +132,7 @@ export async function signUp(
   });
 
   if (error) {
-    console.error('Sign up error:', error.message);
-    return;
+    throw new Error(`Error Signing up: ${error.message}`);
   }
 
   console.log('Sign up success:', data);
