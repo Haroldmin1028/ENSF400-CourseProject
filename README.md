@@ -1,5 +1,3 @@
-# This project is currently in the deployment process, so is currently unavailable!
-
 # RecipEasy
 
 This project was originally done as a project for the course Software Engineering Industry Practices and Communication (ENSF 400) at the Schulich School of Engineering at the University of Calgary. This project aims to build a website that people can use to search for different human-made recipes on the MealDB database and ask questions specific to any recipes being viewed with the help of AI. This project aims to solve the problem of AI-generated recipes tending to "mash" multiple different recipes together. With our project, users can view real human recipes, but they can still ask AI questions related to those recipes with our 'Gemini Ramsey' chatbot that utilizes a Google Gemini API, effectively providing the best of two worlds.
